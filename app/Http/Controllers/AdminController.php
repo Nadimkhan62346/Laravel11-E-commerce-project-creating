@@ -21,4 +21,5 @@ class AdminController extends Controller
     {
         return view('admin.add-brand');
     }
+    public function brand_store
 }
