@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\category;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -76,10 +77,6 @@ class AdminController extends Controller
         return redirect()->route('admin.brands')->with('status', 'Brand has been updated succesfully!');
     }
 
-
-
-
-
     public function GenerateBrandThumbailsImage($image, $imageName)
     {
         $destinationPath = public_path('uploads/brands');
@@ -90,14 +87,19 @@ class AdminController extends Controller
         })->save($destinationPath . '/' . $imageName);
     }
 
-    public function brand_delete($id)
+    public function delete_brand($id)
     {
-        $brand=Brand::find($id);
-        if(File::exists(public_path('uploads/brand').'/'.$brand->image))
-        {
-            File::delete(public_path('uploads/brand').'/'.$brand->image);
+        $brand = Brand::find($id);
+        if (File::exists(public_path('uploads/brands') . '/' . $brand->image)) {
+            File::delete(public_path('uploads/brands') . '/' . $brand->image);
         }
         $brand->delete();
-        return redirect()->route('admin.brands')->with('status','Brand has been deleted successfully');
+        return redirect()->route('admin.brands')->with('status', 'Record has been deleted successfully !');
+    }
+
+    public function categories()
+    {
+        $categories = Category::orderBy('id','DESC')->paginate(10);
+        return view('admin.categories',compact('categories'));
     }
 }
