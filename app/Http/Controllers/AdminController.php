@@ -15,7 +15,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('Admin.index');
+        return view('admin.index');
     }
     public function brands()
     {
@@ -88,5 +88,16 @@ class AdminController extends Controller
         $img->resize(124, 124, function ($constraint) {
             $constraint->aspectRatio();
         })->save($destinationPath . '/' . $imageName);
+    }
+
+    public function brand_delete($id)
+    {
+        $brand=Brand::find($id);
+        if(File::exists(public_path('uploads/brand').'/'.$brand->image))
+        {
+            File::delete(public_path('uploads/brand').'/'.$brand->image);
+        }
+        $brand->delete();
+        return redirect()->route('admin.brands')->with('status','Brand has been deleted successfully');
     }
 }
