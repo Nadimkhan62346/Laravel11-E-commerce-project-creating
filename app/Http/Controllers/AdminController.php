@@ -207,7 +207,7 @@ class AdminController extends Controller
                 $product = new Product();
 
                 $product->name = $request->name;
-                $product->slug = Str::slug($request->name);
+                $product->slug = $request->slug;
                 $product->short_description = $request->short_description;
                 $product->description = $request->description;
                 $product->regular_price = $request->regular_price;
@@ -220,20 +220,20 @@ class AdminController extends Controller
                 $product->brand_id = $request->brand_id;
 
                 $current_timestamp = Carbon::now()->timestamp;
-
+// @dd($request);
                 if($request->hasFile('image'))
                 {
                     $image =$request->File('image');
                     $imageName = $current_timestamp . '.'.$image->extension();
-                    $this->  GenerateProductThumbailsImage($image,$imageName );
-                    $product->image=$imageName;
+                    $this->GenerateProductThumbailsImage($image,$imageName );
+                    $product->images=$imageName;
                 }
 
                 $gallery_arr = array();
                 $gallery_images = "";
                 $counter = 1;
 
-                if($request->hasFile('image'))
+                if($request->hasFile('images'))
                 {
                     $allowedfileExtion = ['png','jpg','jpeg'];
                     $files = $request->file('image');
@@ -253,7 +253,7 @@ class AdminController extends Controller
                 }
                 $product->image = $gallery_images;
                 $product->save();
-                return redirect()->route('admin.products')-with('status','Product has been added successfully');
+                return redirect()->route('admin.products')->with('status','Product has been added successfully');
 
         }
 

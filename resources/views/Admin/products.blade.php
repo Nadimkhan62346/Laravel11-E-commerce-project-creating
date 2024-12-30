@@ -64,12 +64,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($products as $product)
+                        @foreach ($products as $key => $product)
                         <tr>
-                            <td>{{$product->id}}</td>
+                            <td>{{$key+1}}</td>
                             <td class="pname">
                                 <div class="image">
-                                    <img src="{{asset('uploads/products/thumbnails')}}/{{$product->image}}" alt="" class="image">
+                                    <img src="{{asset('uploads/products/thumbnails')}}/{{$product->images}}" alt="" class="image">
                                 </div>
                                 <div class="name">
                                     <a href="#" class="body-title-2">{{$product->name}}</a>
