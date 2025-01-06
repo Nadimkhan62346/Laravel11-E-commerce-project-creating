@@ -98,13 +98,15 @@
                                                     <i class="icon-eye"></i>
                                                 </div>
                                             </a>
-                                            <a href="{{ route('admin.product.edit', ['id' => $product->id]) }}">
+                                            <a href="{{ route('admin.product.edit', ['id'=>$product->id]) }}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>
                                                 </div>
                                             </a>
 
-                                            <form action="" method="POST">
+                                            <form id="delete" action="{{ route('admin.product.delete',['id'=>$product->id]) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
                                                 <div class="item text-danger delete">
                                                     <i class="icon-trash-2"></i>
                                                 </div>
@@ -125,3 +127,30 @@
         </div>
     </div>
 @endsection
+
+
+@push('script')
+<script>
+
+    $(document).ready(function(){
+        $('#delete').on('click',function(e){
+            // e.preventDefult();
+            var form = $(this).closest('form');
+
+
+            swal({
+                title:"Are you sure?",
+                text:"You want to delete this record?",
+                type:"warning",
+                buttons:["No","Yes"],
+                confirmButtonColor:'#dc3545'
+            }).then(function(result){
+                if(result){
+                    form.submit();
+                }
+            });
+        });
+    });
+
+</script>
+@endpush
